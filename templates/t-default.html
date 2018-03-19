@@ -16,9 +16,13 @@
    }
 	div.slider_dist { margin-top:20px; margin-bottom:20px; background-color: blue; }
 
-	div.param{ margin-top:7px;white-space:nowrap;}
+	div.param{ margin-top:3px;white-space:nowrap;}
 	
-	#ppm_row { display:none; }	
+	
+	.ui-slider .ui-slider-handle {
+    height: 25px;
+    width: 25px;
+    }
 	
 </style>
 <script>
@@ -52,21 +56,21 @@
 				</div>
 		   </div>
          <div class="col-md small" style="">
-            <table class="table table-hover table-dark" style="" class="table-sm">
+            <table class="table table-hover table-dark table-sm" style="">
                <tr>
                   <th>Sensor</th>
                   <td id="sensor"></td>
                </tr>
                <tr>
-                  <th>Sensor Size</th>
+                  <th>Sensor Size (h x v)</th>
                   <td id="sensor_wxh"></td>
                </tr>
                <tr>
-                  <th>Field of View</th>
+                  <th>Field of View (h x v)</th>
                   <td id="fov_wxh"></td>
                </tr>
                <tr>
-                  <th>Angle of View</th>
+                  <th>Angle of View (h x v)</th>
                   <td id="aov_wxh"></td>
                </tr>
                <tr>
