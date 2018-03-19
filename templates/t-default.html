@@ -1,0 +1,115 @@
+<style>
+   div.fov {
+   width:${fov_x_pix}px;
+   height:${win_y_px}px;
+   border:2px solid black;
+   background-color: white;
+   position: relative;
+   overflow:hidden
+   }
+   div.fov img {
+   display: block;
+   margin: auto;
+   position: absolute;
+   bottom:0px;
+   left: 0; right: 0;
+   }
+	div.slider_dist { margin-top:20px; margin-bottom:20px; background-color: blue; }
+
+	div.param{ margin-top:7px;white-space:nowrap;}
+	
+	#ppm_row { display:none; }	
+	
+</style>
+<script>
+   // These globals are used in lens_scale.js and are generated 
+   var Ccd = $json_ccd;
+   var Objective = $json_obj;
+   
+   //function submit_url()
+   //{
+   	//?inx=&size=DSLR-FF&lens_mm=23
+   	//document.getElementById("myForm").submit();
+   //}
+   
+</script>
+<div class="container" style="border:1px dotted blue;">
+   <form name="lens_calc" id="lens_calc">
+      <input type="hidden" name="dist_z" id="dist_z">
+      <div class="row">
+         <div class="col-md-12 text-left lead"></div>
+      </div>
+      <div class="row">
+         <div class="col-md text-left param"><label for="size" id="size_label">Camera Model</label>$popup_ccd</div>
+         <div class="col-md text-left param"><label for="lens_mm" id="fov_x_label">Lens Focal Length</label><input type="text" name="lens_mm" id="lens_mm" size="3" value="$lens_mm" class="text-input"/>mm</div>
+         <div class="col-md text-left param"><label for="lens_mm" id="fov_x_label">Objective</label>$popup_obj</div>
+      </div>
+		<br>
+      <div class="row">
+         <div class="col-md-7" style="" id="fov_col">
+				<div class="fov" id="fov_div">
+               <img id="preview0" src="$img_target" height="${target_y}px">
+				</div>
+		   </div>
+         <div class="col-md small" style="">
+            <table class="table table-hover table-dark" style="" class="table-sm">
+               <tr>
+                  <th>Sensor</th>
+                  <td id="sensor"></td>
+               </tr>
+               <tr>
+                  <th>Sensor Size</th>
+                  <td id="sensor_wxh"></td>
+               </tr>
+               <tr>
+                  <th>Field of View</th>
+                  <td id="fov_wxh"></td>
+               </tr>
+               <tr>
+                  <th>Angle of View</th>
+                  <td id="aov_wxh"></td>
+               </tr>
+               <tr>
+                  <th>Aspect Ratio</th>
+                  <td id="ratio"></td>
+               </tr>
+               <tr>
+                  <th>Focal Length</th>
+                  <td id="lens_mm_txt"></td>
+               </tr>
+               <tr>
+                  <th>Distance</th>
+                  <td id="dist_z_txt"></td>
+               </tr>
+               <tr id="ppm_row">
+                  <th>Pixel Per Meter</th>
+                  <td id="ppmh"></td>
+               </tr>
+            </table>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-9" style="">
+            <div style="text-align:left;margin-top:10px;">Subject Distance  
+               <span style="text-align:left; font-size:.8em;">(Adjust Using Slider)</span>
+               <span class="float-right" style="" id="slider_val"></span>
+            </div>
+            <div id="slider" class="slider_dist"></div>
+            <!-- <div id="slider_val"></div> -->
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-9">
+            <span id="url_current"></span>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-9">
+            <!-- <input type="submit" id="submit_form"> -->
+            <button type="button" class="btn btn-primary" id="create_url">Create URL</button>
+         </div>
+      </div>
+      <br>
+   </form>
+</div>
+<script></script>

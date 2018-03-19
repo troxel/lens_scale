@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+<script src="/lens_scale/js/lens_scale.js"></script>
+
+<title>Lens Calculator</title>
+
+<script type="text/javascript">
+//<![CDATA[
+
+  var M2FT = 3.28;
+
+  $(document).ready( function() {
+
+    // Defaults
+        if ( $('input[name=units]:checked').val() == undefined )
+        {
+           $("#units_metric").attr("checked","checked")
+        }
+
+        // Metric/Customary FlipFlop
+    $("input[name=units]").click( function () {
+
+            var radio_checked = $('input[name=units]:checked').val();
+
+                if ( radio_checked == 'Metric' )
+                {
+          var ft = $("#fov_x").val() / M2FT;
+                  $("#fov_x").val( ft.toFixed(2) );
+
+          ft = $("#dist_z").val() / M2FT;
+                  $("#dist_z").val( ft.toFixed(2) );
+                }
+
+                if ( radio_checked == 'Customary' )
+                {
+          var meters = $("#fov_x").val() * M2FT;
+                  $("#fov_x").val( meters.toFixed(2) );
+
+          meters = $("#dist_z").val() * M2FT;
+                  $("#dist_z").val( meters.toFixed(2) );
+                }
+
+                $("form").submit();
+
+        });  // End Metric/Customary
+  });
+
+
+  function send_rqst(inx)
+  {
+    document.lens_calc.inx.value = inx;
+    document.lens_calc.submit();
+  }
+  //]]>
+</script>
+
+ <script type="text/javascript">
+//<![CDATA[
+
+  function val_form(which)
+  {
+    if ( which == "dist_z" ) {
+      if (!( /\d+/.test(document.forms[0].fov_x.value) ))  { alert("Need a Target View Width to Calculate Distance"); return false; }
+        }
+
+    if ( which == "fov_x" ) {
+      if (!( /\d+/.test(document.forms[0].dist_z.value) )) { alert("Need a Distance to Calculate Target View Width"); return false; }
+    }
+
+        return true;
+  }
+  //]]>
+</script>
+
+</head>
+
+<body>
+  <center>
+    <div id="body" class="body">
+      <div id="container" class="container">
+      <div class="page-header">
+        <h1>Header</h1>
+      </div>
+      </div>
+		
+	 $content
+	 
+   </div>
+</body>
+</html>

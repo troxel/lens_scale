@@ -1,0 +1,179 @@
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="description" content="DVR Systems Stand Alone and PC bases">
+<meta name="keywords" content="DVR Recorders, Cameras">
+<link href="http://ascendentdvr.com/store_db/templates/styles.css" rel="stylesheet" type="text/css">
+<link href="http://ascendentdvr.com/css/tools.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="http://ascendentdvr.com/js/jquery.flot.js"></script>
+<script type="text/javascript" language="javascript" src="http://ascendentdvr.com/js/excanvas.js"></script>
+
+<script type="text/javascript">
+
+var M2FT = 3.28;
+
+var refresh_plot = function () 
+{
+     var units = $('input[name=units]:checked').val();
+	 var size  = $('select').val();
+	 var lens_mm = $("#lens_mm").val(); 
+	 var xaxis = $("#xaxis").val(); 
+
+ 	 // Validate here 
+
+	 var url = "http://ascendentdvr.com/lens_plot/";
+		
+	 $.get(url,
+	       { units: units, size: size, lens_mm: lens_mm, xaxis: xaxis, 'action_gen_plot': 1}, 
+	       function(data,textStatus)
+		   { 
+			  var placeholder = $("#placeholder");
+              var options = {
+                lines: { show: true },
+                points: { show: true },
+				legend: { position: "nw"}};
+                			
+		      $.plot(placeholder, data, options); 
+			  
+		   },'json');
+	  
+     $("#plot_title").html("CCD Size " + size + " / Focal Length " + lens_mm + " mm"); 	  
+	  
+   	 return false; 
+}
+
+
+$(document).ready( function() {
+  
+    // Defaults
+	$("#units_metric").attr("checked","checked");
+    var lens_mm = $("#lens_mm").val('12'); 
+    refresh_plot(); 
+ 
+	// Metric/Customary FlipFlop 
+	var last_checked;
+    $("input[name=units]").click( function () {
+	
+	    var radio_checked = $('input[name=units]:checked').val();
+				
+		if ( radio_checked == last_checked ) { return }		
+				
+		var xaxis_val = $("#xaxis").val(); 		
+		if ( radio_checked == 'Metric' ) { $(".unit_lbl").html('[M]'); $("#xaxis").val( Math.round(xaxis_val/M2FT) );} 
+
+		if ( radio_checked == 'Customary' ) { $(".unit_lbl").html('[Ft]'); $("#xaxis").val( Math.round(xaxis_val * M2FT) ); }
+	
+	    last_checked = radio_checked; 
+	
+	  	refresh_plot();
+		
+	});  // End Metric/Customary 
+	
+    $("#gen_plot_submit").click( refresh_plot  );
+	
+    $("#z_plus").click( function () {
+	   expand++; 
+	   refresh_plot();
+    });
+	
+    $("#z_minus").click( function () {
+	   expand--; 
+	   refresh_plot();
+    });
+	
+});
+
+
+</script>
+<script>
+
+function val_form(which)
+{
+    if ( which == "dist_z" ) {
+      if (!( /\d+/.test(document.forms[0].win_x.value) ))  { alert("Need a Target View Width to Calculate Distance"); return false; } 
+	}  
+
+    if ( which == "win_x" ) {
+      if (!( /\d+/.test(document.forms[0].dist_z.value) )) { alert("Need a Distance to Calculate Target View Width"); return false; } 
+    }
+	
+	return true; 
+}
+</script>
+</head>
+<body>
+<center>
+<form name="lens_calc" id="lens_calc">
+<div id="body" class="body">
+
+<table class="outerTable"  width="700" style="width:700;" border="0" cellpadding="0" cellspacing="0">
+<tr>
+  <td>$hdr</td>
+</tr>
+<tr>
+  <td style="text-align:left;height:40px;" align="left"><span style="text-align:left"><a href=/>Home</a> / <a href="http://ascendentdvr.com/tools.html">Tools</a> / <a href=http://ascendentdvr.com/lens_plot/> Lens Plots</a></span></td>
+</tr>
+<tr>
+  <td>
+
+	 <input type="hidden" name=inx>
+     <fieldset>
+	  <legend>DVR Lens Calculator</legend>
+ 
+      <div class="wrapper">
+        <div class="step_col">Step 1</div>
+ 		<div class="lbl_col"><label for="units" id="units_label">Units Preference</label></div>
+		<div class="input_units">
+		 Metric <input type="radio" name="units" id="units_metric" class="radio-input" $metric_ck value="Metric"/>
+		 US     <input type="radio" name="units" id="units_customary" class="radio-input" $customary_ck value="Customary" /></div>
+
+		<div style="float:right; width:275px"> 
+			<div class="step_col" style="width:55px;">Option 1</div>
+			<div class="lbl_col" style="width:115px;"><label for="units" id="units_label">X-axis Maximum</label></div>
+			<div class="input_col" style="width:70px;"><input type="text" name="xaxis" id="xaxis" size="3" value="$xaxis" class="text-input"/> <span class="unit_lbl">[M]</span> </div>
+        </div>
+		
+         <br>
+		 
+         <div class="step_col">Step 2</div>
+         <div class="lbl_col"><label for="size" id="size_label">CCD Chip Size</label></div>
+         <div class="input_col">$popup_ccd</div>
+
+		 <br>
+		 
+	     <div class="step_col">Step 3</div>
+	     <div class="lbl_col"><label>Lens Focal Length</label></div>  
+         <div class="input_col"><input type="text" name="lens_mm" id="lens_mm" size="3" value="$lens_mm" class="text-input"/> mm</div>
+		 <br>		  
+	     <div class="step_col">Step 4</div>
+	     <div class="lbl_col"><label>Generate Plot</label></div>  
+         <div class="input_col"><input type="submit" name="action_gen_plot" id="gen_plot_submit" value="Submit"/></div>		 
+		 <br>		  
+    </div>	   
+    <br>	
+     
+     </fieldset>  
+  </td>
+ </tr>
+  <tr>
+    <td style="text-align:center">
+	      <span style="font-size:15px;" id="plot_title"></span> 
+          <div class="center" style="width:700px;margin-right:auto;margin-left:auto;"></div>
+          <div style="float:left;width:45px;height:300px;text-align:center;"><br>V<br>i<br>e<br>w<br><br>D<br>i<br>m<br>e<br>n<br>s<br>i<br>o<br>n<br>s<br><br><span class="unit_lbl">[M]</span></div>
+          <div id="placeholder" style="float:left;width:600px;height:300px;"></div>
+    </td>
+	 	  
+  </tr>		  
+  <tr><td style="text-align:center;"><span style="float:left;width:700px;margin-right:auto;margin-left:auto;" id="x_axis">Distance to Target Area<span class="unit_lbl">[M]</span></td>
+ </tr>
+  <tr>
+   <td>$ftr</td>
+ </tr>
+</table>
+</div>
+</form>
+</center>
+</body>
+</html>

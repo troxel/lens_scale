@@ -1,0 +1,100 @@
+<table class="outerTable" border="0" cellpadding="0" cellspacing="0">
+<tr>
+  <td></td>
+</tr>
+<tr>
+  <td style="height:45px;" align="left"><span style="text-align:left"><a href=/>Home</a> / <a href="http://ascendentdvr.com/tools.html">Tools</a> / <a href=http://ascendentdvr.com/lens_calculator/> Lens Calculator</a></span>
+
+  </td>
+</tr>
+<tr>
+  <td>
+
+     <form name="lens_calc" id="lens_calc">
+    <input type="hidden" name=inx>
+     <fieldset>
+     <legend>DVR Lens Calculator</legend>
+
+      <div class="wrapper">
+        <div class="step_col">Step 1</div>
+      <div class="lbl_col"><label for="units" id="units_label">Units Preference</label></div>
+      <div class="input_units">
+       Metric <input type="radio" name="units" id="units_metric" class="radio-input" $metric_ck value="Metric"/>
+       US     <input type="radio" name="units" id="units_customary" class="radio-input" $customary_ck value="Customary" /></div>
+
+         <br>
+
+         <div class="step_col">Step 2</div>
+         <div class="lbl_col"><label for="size" id="size_label">CCD Chip Size</label></div>
+         <div class="input_col">$popup_ccd</div>
+
+       <br>
+
+        <div class="step_col">Step 3</div>
+        <div class="lbl_col"><label>Enter any 2 of 3 Below</label></div>
+
+       <br>
+
+        <div class="step_col"> </div>
+        <div class="lbl_col"><label for="win_x" id="win_x_label">Target View Width</label></div>
+         <div class="input_col"><input type="text" name="win_x" id="win_x" size="5" value="$win_x" class="text-input"/>
+       <span class="units_text">$unit_l</span> &nbsp; <input type="submit" name="action_calc_width" onclick="val_form('win_x');" class="button" id="win_x_submit" value="Calculate Target View Width" /></div>
+
+       <div style="float:left; clear:left; height:12px; width:250; vertical-align:top; text-align:center" >- OR -<br></div><br>
+
+        <div class="step_col"> </div>
+        <div class="lbl_col"><label for="dist_z" id="dist_z_label">Distance to Target</label></div>
+       <div class="input_col"><input type="text" name="dist_z" id="dist_z" size="5" value="$dist_z" class="text-input"/>
+       <span class="units_text">$unit_l</span> &nbsp; <input type="submit" name="action_calc_dist" onclick="val_form('dist_z');" class="button" id="dist_z_submit" value="Calculate Distance to Target" /> </div>
+
+       <div style="float:left; clear:left; height:12px; width:250; vertical-align:top; text-align:center" >- OR -<br></div><br>
+
+        <div class="step_col"> </div>
+        <div class="lbl_col"><label for="win_x" id="win_x_label">Lens Focal Length</label></div>
+         <div class="input_col"><input type="text" name="lens_mm" id="lens_mm" size="3" value="$lens_mm" class="text-input"/>
+       <span style="width:58px;display:inline-block;">mm</span> <input type="submit" name="action_calc_lens_mm" onclick="val_form('lens_mm');" class="button" id="win_x_submit" value="Calculate Lens Focal Length"/></div>
+
+       </div>
+
+   <br>
+   <br>
+    <hr>
+    <table border=0 cellpadding=0 cellspacing=0 width="100%">
+     <tr>
+      <th>CCD</th><th>Focal Length (mm)</th><th>Distance to Target $unit_l</th><th>Target Width $unit_l</th><th>Target Vert $unit_l</th><th>Horz Angle</th><th>Rmv</th>
+    </tr>
+     <!-- BEGIN name=data_row -->
+     <tr style="background-color:$row_clr;">
+      <td class="center">$size</td><td class="center">$lens_mm</td><td class="center">$dist_z</td><td class="center">$win_x</td>
+      <td class="center">$win_y</td><td class="center">$degree</td><td class="center"><input type="image" src="http://www.ascendentgroup.com/images/rmv.gif" class="rmv" name="action_remove" title="$inx" value="$inx" onClick="send_rqst(this.value)"></td>
+    </tr>
+    <!-- END name=data_row -->
+
+     <tr><td colspan="100"><hr></td></tr>
+
+     <tr><td colspan="100"><div> $dist_x X $dist_y</div></td></tr>
+
+    <!-- BEGIN name=control_blk -->
+     <tr>
+     <td colspan=5 align="center" style="text-align:center;height:75px;">
+     <input type="submit" name="action_email_lst" value="Send Results to an Email"><input value="$email_to" name="email_to" type=text size=35></td>
+     <td><input type="submit" name="action_remove" value="Rmv All"></td>
+     </tr>
+     <!-- END name=control_blk -->
+    <tr>
+     <td colspan=100 style="text-align:center;color:red;">$email_err_msg</td>
+    </tr>
+
+    </table>
+
+
+     </fieldset>
+   </form>
+  </td>
+ </tr>
+ </tr>
+   <tr>
+     <td><img src="?action_scale_image=1&dist_z=$dist_z&"></td>
+  </tr>
+</table>
+
