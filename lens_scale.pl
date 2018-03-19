@@ -25,44 +25,46 @@ use JSON;
 # short side (mm)  2.7   3.6   4.8    6.6     9.525   3.06
 # diagonal (mm)    4.5   6.0   8.0   10.991  15.875
 
-my $Limit_lst = 12;
-
-# List of ccd devices in order for pull down
+# List of ccd devices. These have to match exactly the keys for the %Ccd hash below. This list controls the order shown in the pull down 
 my @Ccd_lst = ('DSLR-FF', 'T25um-385', 'T17um-320', 'T17um-640', 'T15um-640', 'T10um-640', 'T12um-320', 'T12um-640', 'T15um-1280', 'T10um-1280','1/4', '1/3', '1/2.8', '1/2.5', '1/2', '1/1.8', '1/1.7', '2/3', '1');
 
-# Particulars of devices
+# Particulars of devices. The lbl key is the label shown in the pull down. 
 my %Ccd;
-$Ccd{'1/4'} = { 'x'=>3.6, 'y'=>2.7, 'ratio'=> 1.3333 };
-$Ccd{'1/3'} = { 'x'=>4.8, 'y'=>2.7, 'ratio'=> 1.7778 };
-$Ccd{'1/2.8'} = { 'x'=>5.44, 'y'=>3.06, 'ratio'=> 1.7778 };
-$Ccd{'1/2.5'} = { 'x'=>5.76, 'y'=>4.29, 'ratio'=> 1.3427 };
-$Ccd{'1/2'} = { 'x'=>6.4, 'y'=>4.8, 'ratio'=> 1.3333 };
-$Ccd{'1/1.8'} = { 'x'=>7.18, 'y'=>4.04, 'ratio'=> 1.7772 };
-$Ccd{'1/1.7'} = { 'x'=>7.6, 'y'=>5.7, 'ratio'=> 1.3333 };
-$Ccd{'2/3'} = { 'x'=>8.8, 'y'=>6.6, 'ratio'=> 1.3333 };
-$Ccd{'1'} = { 'x'=>12.7, 'y'=>9.525, 'ratio'=> 1.3333 };
-$Ccd{'DSLR-FF'} = { 'x'=>36, 'y'=>24, 'ratio'=> 1.5000 };
-$Ccd{'T25um-385'} = { 'x'=>9.625, 'y'=>7.15, 'ratio'=> 1.3462 };
-$Ccd{'T17um-320'} = { 'x'=>5.44, 'y'=>4.08, 'ratio'=> 1.3333, 'x_px'=>320, 'y_px'=>240 };
-$Ccd{'T17um-640'} = { 'x'=>10.88, 'y'=>8.16, 'ratio'=> 1.3333 , 'x_px'=>640 };
-$Ccd{'T15um-640'} = { 'x'=>9.6, 'y'=>7.2, 'ratio'=> 1.3333, 'x_px'=>640 };
-$Ccd{'T10um-640'} = { 'x'=>6.4, 'y'=>4.8, 'ratio'=> 1.3333, 'x_px'=>640 };
-$Ccd{'T12um-320'} = { 'x'=>3.84, 'y'=>2.88, 'ratio'=> 1.3333, 'x_px'=>320 };
-$Ccd{'T12um-640'} = { 'x'=>7.68, 'y'=>5.76, 'ratio'=> 1.3333, 'x_px'=>640 };
-$Ccd{'T15um-1280'} = { 'x'=>19.2, 'y'=>10.8, 'ratio'=> 1.7778, 'x_px'=>1280 };
-$Ccd{'T10um-1280'} = { 'x'=>12.8, 'y'=>7.2, 'ratio'=> 1.7778, 'x_px'=>1280 };
-
+$Ccd{'1/4'}   = { 'lbl'=>'1/4"',  'x'=>3.6, 'y'=>2.7,  'ratio'=> 1.3333 };
+$Ccd{'1/3'}   = { 'lbl'=>'1/3"',  'x'=>4.8, 'y'=>2.7,  'ratio'=> 1.7778 };
+$Ccd{'1/2.8'} = { 'lbl'=>'1/2.8"','x'=>5.44,'y'=>3.06, 'ratio'=> 1.7778 };
+$Ccd{'1/2.5'} = { 'lbl'=>'1/2.5"','x'=>5.76,'y'=>4.29, 'ratio'=> 1.3427 };
+$Ccd{'1/2'}   = { 'lbl'=>'1/2"',  'x'=>6.4, 'y'=>4.8,  'ratio'=> 1.3333 };
+$Ccd{'1/1.8'} = { 'lbl'=>'1/1.8"','x'=>7.18,'y'=>4.04, 'ratio'=> 1.7772 };
+$Ccd{'1/1.7'} = { 'lbl'=>'1/1.7"','x'=>7.6, 'y'=>5.7,  'ratio'=> 1.3333 };
+$Ccd{'2/3'}   = { 'lbl'=>'2/3"',  'x'=>8.8, 'y'=>6.6,  'ratio'=> 1.3333 };
+$Ccd{'1'}     = { 'lbl'=>'1"',    'x'=>12.7,'y'=>9.525,'ratio'=> 1.3333 };
+$Ccd{'DSLR-FF'}    = { 'lbl'=>'DSLR-FF',        'x'=>36,   'y'=>24,  'ratio'=> 1.5000 };
+$Ccd{'T25um-385'}  = { 'lbl'=>'T25&#956;m-385', 'x'=>9.625,'y'=>7.15,'ratio'=> 1.3462 };
+$Ccd{'T17um-320'}  = { 'lbl'=>'T17&#956;m-320', 'x'=>5.44, 'y'=>4.08,'ratio'=> 1.3333, 'x_px'=>320, 'y_px'=>240 };
+$Ccd{'T17um-640'}  = { 'lbl'=>'T17&#956;m-640', 'x'=>10.88,'y'=>8.16,'ratio'=> 1.3333 ,'x_px'=>640 };
+$Ccd{'T15um-640'}  = { 'lbl'=>'T15&#956;m-640', 'x'=>9.6,  'y'=>7.2, 'ratio'=> 1.3333, 'x_px'=>640 };
+$Ccd{'T10um-640'}  = { 'lbl'=>'T10&#956;m-640', 'x'=>6.4,  'y'=>4.8, 'ratio'=> 1.3333, 'x_px'=>640 };
+$Ccd{'T12um-320'}  = { 'lbl'=>'T12&#956;m-320', 'x'=>3.84, 'y'=>2.88,'ratio'=> 1.3333, 'x_px'=>320 };
+$Ccd{'T12um-640'}  = { 'lbl'=>'T12&#956;m-640', 'x'=>7.68, 'y'=>5.76,'ratio'=> 1.3333, 'x_px'=>640 };
+$Ccd{'T15um-1280'} = { 'lbl'=>'T15&#956;m-1280','x'=>19.2, 'y'=>10.8,'ratio'=> 1.7778, 'x_px'=>1280 };
+$Ccd{'T10um-1280'} = { 'lbl'=>'T10&#956;m-1280','x'=>12.8, 'y'=>7.2, 'ratio'=> 1.7778, 'x_px'=>1280 };
+ 
 # Create label hash for pull down... 
-my %Ccd_lbl = map { $_=>"$_" } @Ccd_lst;
+my %Ccd_lbl = map { $_=>"$Ccd{$_}->{lbl}" } @Ccd_lst;
 
-# Objective info
+# Objective info. Follows the same pattern as above. Elements of the lst need to be keys in the hash. 
 my @Obj_lst = ('Human', 'SUV', 'AUV');
-my $Obj = { 'Human'=>{'y'=>2}, 'SUV'=>{'y'=>1.8}, 'AUV'=>{'y'=>.5}  };
-my %Obj_lbl = map { $_=>"$_" } @Obj_lst;
+my %Obj;
+$Obj{'Human'} = {'lbl'=>'Human [1.8m x 0.5m]','y'=>2};
+$Obj{'SUV'}   = {'lbl'=>'SUV [2.3m x 2.3m]',  'y'=>1.8}; 
+$Obj{'AUV'}   = {'lbl'=>'AUV [0.4m x 0.2m]',  'y'=>.5};
+				
+my %Obj_lbl = map { $_=>"$Obj{$_}->{lbl}" } @Obj_lst;
 
 # Used in javascript... 
 $Data{json_ccd} = encode_json \%Ccd;
-$Data{json_obj} = encode_json $Obj;
+$Data{json_obj} = encode_json \%Obj;
 
 my @K_lst = qw/lens_mm size dist_z fov_x fov_y degree/;
 
@@ -108,6 +110,7 @@ sub cb_default
   if ( $Ssn{'units'} eq 'Customary' ) { metric2cust(\%Query); }
   toFixed(\%Query);
 
+  $Query->{'escape'} = 0;
   $Data{'popup_ccd'} = $Query->popup_menu(-name=>'size',-values=>\@Ccd_lst,-labels=>\%Ccd_lbl,-default=>[$Query{'size'}],-id=>"ccd_select");
   $Data{'popup_obj'} = $Query->popup_menu(-name=>'obj',-values=>\@Obj_lst,-labels=>\%Obj_lbl,-default=>[$Query{'obj'}],-id=>"obj_select");
 
@@ -135,8 +138,6 @@ sub cb_scale
 
   my $trx = new WebFrame::TemplateRex( { file=>"t-default.html"} );
   $Data{'time'} = localtime(time);
-
-  if ( $#{$Ssn{db}} >= $Limit_lst ) { @{$Ssn{db}} = @{$Ssn{db}}[1..$Limit_lst]};
 
   my @db_lst = @{$Ssn{db}};
 
