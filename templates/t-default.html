@@ -18,17 +18,22 @@
 
 	div.param{ margin-top:3px;white-space:nowrap;}
 	
-	
 	.ui-slider .ui-slider-handle {
-    height: 25px;
-    width: 25px;
-    }
+     width: 30px;
+     height: 30px;
+     padding-left: 5px;
+   }
+
+	.ui-slider-horizontal {
+		height: 17px;
+   } 
 	
 </style>
 <script>
    // These globals are used in lens_scale.js and are generated 
    var Ccd = $json_ccd;
    var Objective = $json_obj;
+   var Resolutions = $json_res;
    
    //function submit_url()
    //{
@@ -44,9 +49,10 @@
          <div class="col-md-12 text-left lead"></div>
       </div>
       <div class="row">
-         <div class="col-md text-left param"><label for="size" id="size_label">Camera Model</label>$popup_ccd</div>
+         <div class="col-md text-left param"><label for="ccd_select" id="size_label">Camera Model</label>$popup_ccd</div>
+         <div class="col-md text-left param" style="display:none;"><label for="size" id="size_label">Resolution</label>$popup_res</div>
          <div class="col-md text-left param"><label for="lens_mm" id="fov_x_label">Lens Focal Length</label><input type="text" name="lens_mm" id="lens_mm" size="3" value="$lens_mm" class="text-input"/>mm</div>
-         <div class="col-md text-left param"><label for="lens_mm" id="fov_x_label">Objective</label>$popup_obj</div>
+         <div class="col-md text-left param"><label for="obj_select" id="fov_x_label">Objective</label>$popup_obj</div>
       </div>
 		<br>
       <div class="row">
@@ -98,7 +104,7 @@
                <span style="text-align:left; font-size:.8em;">(Adjust Using Slider)</span>
                <span class="float-right" style="" id="slider_val"></span>
             </div>
-            <div id="slider" class="slider_dist"></div>
+            <div id="slider" class="slider_dist ui-slider"></div>
             <!-- <div id="slider_val"></div> -->
          </div>
       </div>

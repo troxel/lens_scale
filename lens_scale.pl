@@ -25,7 +25,9 @@ use JSON;
 # short side (mm)  2.7   3.6   4.8    6.6     9.525   3.06
 # diagonal (mm)    4.5   6.0   8.0   10.991  15.875
 
-# List of ccd devices. These have to match exactly the keys for the %Ccd hash below. This list controls the order shown in the pull down 
+# ------------------------------------------
+# CCD Devices Information 
+# These have to match exactly the keys for the %Ccd hash below. This list controls the order shown in the pull down 
 my @Ccd_lst = ('DSLR-FF', 'T25um-385', 'T17um-320', 'T17um-640', 'T15um-640', 'T10um-640', 'T12um-320', 'T12um-640', 'T15um-1280', 'T10um-1280','1/4', '1/3', '1/2.8', '1/2.5', '1/2', '1/1.8', '1/1.7', '2/3', '1');
 
 # Particulars of devices. The lbl key is the label shown in the pull down. 
@@ -53,18 +55,47 @@ $Ccd{'T10um-1280'} = { 'lbl'=>'T10&#956;m-1280','x'=>12.8, 'y'=>7.2, 'ratio'=> 1
 # Create label hash for pull down... 
 my %Ccd_lbl = map { $_=>"$Ccd{$_}->{lbl}" } @Ccd_lst;
 
-# Objective info. Follows the same pattern as above. Elements of the lst need to be keys in the hash. 
+# ------------------------------------------
+# Objective information. 
+# Follows the same pattern as above. Elements of the lst need to be keys in the hash. 
 my @Obj_lst = ('Human', 'SUV', 'AUV');
 my %Obj;
 $Obj{'Human'} = {'lbl'=>'Human [1.8m x 0.5m]','y'=>2};
 $Obj{'SUV'}   = {'lbl'=>'SUV [2.3m x 2.3m]',  'y'=>1.8}; 
 $Obj{'AUV'}   = {'lbl'=>'AUV [0.4m x 0.2m]',  'y'=>.5};
 				
+# Create label hash for pull down... 
 my %Obj_lbl = map { $_=>"$Obj{$_}->{lbl}" } @Obj_lst;
+
+# ------------------------------------------
+# Resolution information. 
+# Follows the same pattern as above. Elements of the lst need to be keys in the hash. 
+my @Resolution_lst = qw(VGA SVGA 720p 1.3MP 2MP 1080p 3MP 4MP 5MP 6MP 4K 10MP 12MP 16MP 6K 7K);    
+my %Resolution;
+$Resolution{'VGA'}   = {'x_px'=>640 , 'y_px'=>480 , 'lbl'=>'VGA   640 x 480'};  
+$Resolution{'SVGA'}  = {'x_px'=>800 , 'y_px'=>600 , 'lbl'=>'SVGA  800 x 600'};  
+$Resolution{'720p'}  = {'x_px'=>1280, 'y_px'=>720 , 'lbl'=>'720p  1280 x 720'}; 
+$Resolution{'1.3MP'} = {'x_px'=>1280, 'y_px'=>1024, 'lbl'=>'1.3MP 1280 x 1024'};
+$Resolution{'2MP'}   = {'x_px'=>1600, 'y_px'=>1200, 'lbl'=>'2MP   1600 x 1200'};
+$Resolution{'1080p'} = {'x_px'=>1920, 'y_px'=>1080, 'lbl'=>'1080p 1920 x 1080'};
+$Resolution{'3MP'}   = {'x_px'=>2048, 'y_px'=>1536, 'lbl'=>'3MP   2048 x 1536'};
+$Resolution{'4MP'}   = {'x_px'=>2688, 'y_px'=>1520, 'lbl'=>'4MP   2688 x 1520'};
+$Resolution{'5MP'}   = {'x_px'=>2592, 'y_px'=>1944, 'lbl'=>'5MP   2592 x 1944'};
+$Resolution{'6MP'}   = {'x_px'=>3072, 'y_px'=>2048, 'lbl'=>'6MP   3072 x 2048'};
+$Resolution{'4K'}    = {'x_px'=>3840, 'y_px'=>2160, 'lbl'=>'4K    3840 x 2160'};
+$Resolution{'10MP'}  = {'x_px'=>3648, 'y_px'=>2752, 'lbl'=>'10MP  3648 x 2752'};
+$Resolution{'12MP'}  = {'x_px'=>4000, 'y_px'=>3000, 'lbl'=>'12MP  4000 x 3000'};
+$Resolution{'16MP'}  = {'x_px'=>4608, 'y_px'=>3456, 'lbl'=>'16MP  4608 x 3456'};
+$Resolution{'6K'}    = {'x_px'=>6016, 'y_px'=>4008, 'lbl'=>'6K    6016 x 4008'};
+$Resolution{'7K'}    = {'x_px'=>7360, 'y_px'=>4128, 'lbl'=>'7K    7360 x 4128'};
+                                      
+# Create label hash for pull down... 
+my %Resolution_lbl = map { $_=>"$Resolution{$_}->{lbl}" } @Resolution_lst;
 
 # Used in javascript... 
 $Data{json_ccd} = encode_json \%Ccd;
 $Data{json_obj} = encode_json \%Obj;
+$Data{json_res} = encode_json \%Resolution;
 
 my @K_lst = qw/lens_mm size dist_z fov_x fov_y degree/;
 
@@ -113,6 +144,7 @@ sub cb_default
   $Query->{'escape'} = 0;
   $Data{'popup_ccd'} = $Query->popup_menu(-name=>'size',-values=>\@Ccd_lst,-labels=>\%Ccd_lbl,-default=>[$Query{'size'}],-id=>"ccd_select");
   $Data{'popup_obj'} = $Query->popup_menu(-name=>'obj',-values=>\@Obj_lst,-labels=>\%Obj_lbl,-default=>[$Query{'obj'}],-id=>"obj_select");
+  $Data{'popup_res'} = $Query->popup_menu(-name=>'res',-values=>\@Resolution_lst,-labels=>\%Resolution_lbl,-default=>[$Query{'res'}],-id=>"res_select");
 
   if ($Query{fov_y} )
   {
