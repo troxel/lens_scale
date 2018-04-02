@@ -127,6 +127,8 @@ sub cb_default
   my $trx = new WebFrame::TemplateRex( { file=>"t-default.html"} );
   $Data{'time'} = localtime(time);
 
+  # ---- Validate ----
+  $Query{'lens_mm'} =~ s/\D//g;
   unless ( $Query{'lens_mm'} ) { $Query{'lens_mm'} = 50; }
   unless ( $Query{'obj'} ) { $Query{'obj'} = 'Human'; }
     
